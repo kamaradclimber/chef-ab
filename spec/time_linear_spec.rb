@@ -3,7 +3,7 @@ require 'rspec'
 require_relative '../lib/chef-ab.rb'
 
 module ChefAB
-  class HashUpgrader
+  class TimeLinearUpgrader
     attr_accessor :current_timer
     def current_time
       @current_timer || Time.now.to_i
@@ -11,21 +11,13 @@ module ChefAB
   end
 end
 
-describe ChefAB::HashUpgrader do
-  it 'should have an integer hash' do
-    up = ChefAB::HashUpgrader.new 5, nil, nil
-    expect(up.hash).to be_a_kind_of(Integer)
-  end
-  it 'should have an integer hash in any case' do
-    up = ChefAB::HashUpgrader.new "testing node", nil, nil
-    expect(up.hash).to be_a_kind_of(Integer)
-  end
+describe ChefAB::TimeLinearUpgrader do
 
   def future_upgrade
-    ChefAB::HashUpgrader.new "testing node", (Time.now + 10), (Time.now + 3600)
+    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now + 10), (Time.now + 3600)
   end
   def past_upgrade
-    ChefAB::HashUpgrader.new "testing node", (Time.now - 10), (Time.now - 5)
+    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now - 10), (Time.now - 5)
   end
 
   it 'should not execute before start of upgrade' do
@@ -47,7 +39,7 @@ describe ChefAB::HashUpgrader do
   it 'should not call block before due time and should always do after' do
     start_time = 42 #any timestamp
     end_time = 60
-    up = ChefAB::HashUpgrader.new "testing node", start_time, end_time
+    up = ChefAB::TimeLinearUpgrader.new "testing node", start_time, end_time
 
     first_execute_time = start_time + (start_time..end_time).to_a.index do |fake_time|
       up.current_timer = fake_time
