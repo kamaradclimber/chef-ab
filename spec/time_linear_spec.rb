@@ -56,4 +56,11 @@ describe ChefAB::TimeLinearUpgrader do
       expect { |b| up.execute(&b) }.to yield_control
     end
   end
+
+  it 'should return correct expected_activation' do
+    start_time = 42 #any timestamp
+    end_time = 50
+    up = ChefAB::TimeLinearUpgrader.new 5, start_time, end_time
+    expect(up.expected_activation).to eq(42 + 5 +1)
+  end
 end

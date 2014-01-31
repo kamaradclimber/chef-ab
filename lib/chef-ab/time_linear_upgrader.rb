@@ -11,9 +11,16 @@ module ChefAB
       @hash = @hash % upgrade_span
     end
 
-    def should_execute?
-      threshold    = current_time - start_time
+    def should_execute?(time = nil)
+      time ||= current_time
+      threshold    = time - start_time
       super(threshold)
+    end
+
+    def expected_activation
+      (@start_time..@end_time).to_a.bsearch do |fake_time|
+        should_execute?(fake_time)
+      end
     end
 
     private
