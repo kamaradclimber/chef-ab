@@ -2,6 +2,15 @@ require 'rspec'
 
 require_relative '../lib/chef-ab.rb'
 
+module ChefAB
+  class HashUpgrader
+    attr_accessor :current_timer
+    def current_time
+      @current_timer || Time.now.to_i
+    end
+  end
+end
+
 describe ChefAB::HashUpgrader do
   it 'should have an integer hash' do
     up = ChefAB::HashUpgrader.new 5, nil, nil
@@ -35,18 +44,24 @@ describe ChefAB::HashUpgrader do
     expect { |b| past_upgrade.execute(&b) }.to yield_control
   end
 
-  def halfway_upgrade_early
-    ChefAB::HashUpgrader.new 5, (Time.now - 10), (Time.now + 10)
-  end
-  it 'should call block for early nodes' do
-    expect { |b| halfway_upgrade_early.execute(&b) }.to yield_control
-  end
+  it 'should not call block before due time and should always do after' do
+    start_time = 42 #any timestamp
+    end_time = 60
+    up = ChefAB::HashUpgrader.new "testing node", start_time, end_time
 
-  def halfway_upgrade_late
-    ChefAB::HashUpgrader.new 5, (Time.now - 10), (Time.now + 10)
-  end
+    first_execute_time = start_time + (start_time..end_time).to_a.index do |fake_time|
+      up.current_timer = fake_time
+      up.should_execute?
+    end
 
-  it 'should not call block for late nodes' do
-    expect { |b| halfway_upgrade_late.execute(&b) }.to yield_control
+
+    (start_time..first_execute_time-1).each do |fake_time|
+      up.current_timer = fake_time
+      expect { |b| up.execute(&b) }.not_to yield_control
+    end
+    (first_execute_time..end_time).each do |fake_time|
+      up.current_timer = fake_time
+      expect { |b| up.execute(&b) }.to yield_control
+    end
   end
 end

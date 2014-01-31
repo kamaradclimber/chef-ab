@@ -19,7 +19,7 @@ module ChefAB
 
     def should_execute?
       upgrade_span = end_time - start_time
-      threshold    = Time.now.to_i - start_time
+      threshold    = current_time - start_time
       (@hash % upgrade_span) < threshold
     end
 
@@ -28,5 +28,12 @@ module ChefAB
         block.call
       end
     end
+
+    private
+
+    def current_time
+      Time.now.to_i
+    end
+
   end
 end
