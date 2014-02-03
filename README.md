@@ -36,3 +36,25 @@ end
 default[:chef_ab][:experimental_feature_activation] = Time.at(upgrade.expected_activation)
 default[:chef_ab][:experimental_feature_activated] = node[:a_cookbook][:activate_experimental_feature]
 ```
+
+Another example, upgrading nodes exponentially depending on distance to a given ip address:
+
+```ruby
+# value before upgrade
+default[:a_cookbook][:activate_experimental_feature] = false
+
+# plumbing
+start_time = Time.new(2014, 02, 11, 8, 30, 00, "+01:00")
+period = 3600 # going larger every hour
+first_node = "10.11.12.13"
+
+upgrade = ChefAB::TimeIPBasedUpgrader.new node['ipaddress'],
+  start_time,
+  period,
+  first_node
+
+upgrade.execute do
+  # value after upgrade
+  default[:a_cookbook][:activate_experimental_feature] = true
+end
+```
