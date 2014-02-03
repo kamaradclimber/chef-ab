@@ -5,7 +5,6 @@ chef-ab is a small library to activate code in cookbooks progressively in a clus
 
 It works like an AB test with increasing population.
 
-This library does not give strong garantees on the number of servers that will activate code at the same time (see chef_throttle for that).
 
 Usage
 ----------
@@ -58,3 +57,13 @@ upgrade.execute do
   default[:a_cookbook][:activate_experimental_feature] = true
 end
 ```
+
+
+Warning
+----------
+
+
+
+- This lib is **not** a substitute to release management, it will solve only the issue of progressive update.
+- It is meant to replace the ssh loop that many uses to upgrades server farms.
+- This library does not give strong garantees on the number of servers that will activate code at the same time (see chef_throttle for that).
