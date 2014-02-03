@@ -3,7 +3,7 @@ require 'rspec'
 require_relative '../lib/chef-ab.rb'
 
 module ChefAB
-  class TimeLinearUpgrader
+  class TimeIPBasedUpgrader
     attr_accessor :current_timer
     def current_time
       @current_timer || Time.now.to_i
@@ -11,13 +11,19 @@ module ChefAB
   end
 end
 
-describe ChefAB::TimeLinearUpgrader do
+describe ChefAB::TimeIPBasedUpgrader do
 
   def future_upgrade
-    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now + 10), (Time.now + 3600)
+    ChefAB::TimeIPBasedUpgrader.new "192.168.17.1",
+      (Time.now + 10),
+      3600,
+      "192.168.17.1"
   end
   def past_upgrade
-    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now - 10), (Time.now - 5)
+    ChefAB::TimeIPBasedUpgrader.new "192.168.17.1",
+      (Time.now - 10),
+      3600,
+      "192.168.17.1"
   end
 
   it 'should not execute before start of upgrade' do
@@ -38,8 +44,13 @@ describe ChefAB::TimeLinearUpgrader do
 
   it 'should not call block before expected_activation and should always do after' do
     start_time = 42 #any timestamp
-    end_time = 60
-    up = ChefAB::TimeLinearUpgrader.new "testing node", start_time, end_time
+    period = 10
+    up = ChefAB::TimeIPBasedUpgrader.new "192.168.18.23",
+      start_time,
+      period,
+      "192.168.17.1"
+
+    end_time = 42 + 32 * period
 
     first_execute_time = up.expected_activation
 
@@ -51,12 +62,5 @@ describe ChefAB::TimeLinearUpgrader do
       up.current_timer = fake_time
       expect { |b| up.execute(&b) }.to yield_control
     end
-  end
-
-  it 'should return correct expected_activation' do
-    start_time = 42 #any timestamp
-    end_time = 50
-    up = ChefAB::TimeLinearUpgrader.new 5, start_time, end_time
-    expect(up.expected_activation).to eq(42 + 5 +1)
   end
 end
