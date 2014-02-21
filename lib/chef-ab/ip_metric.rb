@@ -1,4 +1,5 @@
 require 'ipaddress'
+require 'backports/2.0.0/array/bsearch'
 
 module IPmetric
   def ip_metric(ip_ref, ip)

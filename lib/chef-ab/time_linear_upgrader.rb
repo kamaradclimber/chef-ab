@@ -1,3 +1,5 @@
+require 'backports/2.0.0/array/bsearch'
+
 module ChefAB
   class TimeLinearUpgrader < BaseUpgrader
 
