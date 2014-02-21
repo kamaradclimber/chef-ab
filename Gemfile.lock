@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-ab (0.1.0)
+    chef-ab (0.1.1)
       backports
       ipaddress
 
