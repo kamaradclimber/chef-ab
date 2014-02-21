@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "chef-ab"
-  s.version     = '0.1.1'
+  s.version     = '0.2.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Grégoire Seux"]
   s.license     = "Apache License v2"
