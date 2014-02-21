@@ -14,16 +14,20 @@ end
 describe ChefAB::TimeIPBasedUpgrader do
 
   def future_upgrade
-    ChefAB::TimeIPBasedUpgrader.new "192.168.17.1",
-      (Time.now + 10),
-      3600,
-      "192.168.17.1"
+    ChefAB::TimeIPBasedUpgrader.new(
+      node_id: "192.168.17.1",
+      start_time: Time.now + 10,
+      period: 3600,
+      initial_ip: "192.168.17.1"
+    )
   end
   def past_upgrade
-    ChefAB::TimeIPBasedUpgrader.new "192.168.17.1",
-      (Time.now - 10),
-      3600,
-      "192.168.17.1"
+    ChefAB::TimeIPBasedUpgrader.new(
+      node_id: "192.168.17.1",
+      start_time: Time.now - 10,
+      period: 3600,
+      initial_ip: "192.168.17.1"
+    )
   end
 
   it 'should not execute before start of upgrade' do
@@ -45,10 +49,12 @@ describe ChefAB::TimeIPBasedUpgrader do
   it 'should not call block before expected_activation and should always do after' do
     start_time = 42 #any timestamp
     period = 10
-    up = ChefAB::TimeIPBasedUpgrader.new "192.168.18.23",
-      start_time,
-      period,
-      "192.168.17.1"
+    up = ChefAB::TimeIPBasedUpgrader.new(
+      node_id: "192.168.18.23",
+      start_time: start_time,
+      period: period,
+      initial_ip: "192.168.17.1"
+    )
 
     end_time = 42 + 32 * period
 

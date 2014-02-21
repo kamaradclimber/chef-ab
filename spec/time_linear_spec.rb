@@ -14,10 +14,18 @@ end
 describe ChefAB::TimeLinearUpgrader do
 
   def future_upgrade
-    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now + 10), (Time.now + 3600)
+    ChefAB::TimeLinearUpgrader.new(
+      node_id: "testing node",
+      start_time: Time.now + 10,
+      end_time: Time.now + 3600
+    )
   end
   def past_upgrade
-    ChefAB::TimeLinearUpgrader.new "testing node", (Time.now - 10), (Time.now - 5)
+    ChefAB::TimeLinearUpgrader.new(
+      node_id: "testing node",
+      start_time: Time.now - 10,
+      end_time: Time.now - 5
+    )
   end
 
   it 'should not execute before start of upgrade' do
@@ -39,7 +47,11 @@ describe ChefAB::TimeLinearUpgrader do
   it 'should not call block before expected_activation and should always do after' do
     start_time = 42 #any timestamp
     end_time = 60
-    up = ChefAB::TimeLinearUpgrader.new "testing node", start_time, end_time
+    up = ChefAB::TimeLinearUpgrader.new(
+      node_id: "testing node",
+      start_time: start_time,
+      end_time: end_time
+    )
 
     first_execute_time = up.expected_activation
 
@@ -56,7 +68,11 @@ describe ChefAB::TimeLinearUpgrader do
   it 'should return correct expected_activation' do
     start_time = 42 #any timestamp
     end_time = 50
-    up = ChefAB::TimeLinearUpgrader.new 5, start_time, end_time
+    up = ChefAB::TimeLinearUpgrader.new(
+      node_id: 5,
+      start_time: start_time,
+      end_time: end_time
+    )
     expect(up.expected_activation).to eq(42 + 5 +1)
   end
 end

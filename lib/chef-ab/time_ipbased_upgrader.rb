@@ -8,11 +8,12 @@ module ChefAB
     attr_accessor :start_time, :period
     attr_accessor :initial_ip
 
-    def initialize(node_ip, start_time, period, initial_ip)
-      super(ip_metric(initial_ip, node_ip))
-      @start_time = start_time.to_i
-      @period = period
-      @end_time = 31 * period + @start_time
+    def initialize(options)
+      options[:node_id] = ip_metric(options[:initial_ip], options[:node_id])
+      super(options)
+      @start_time = options[:start_time].to_i
+      @period = options[:period]
+      @end_time = 31 * @period + @start_time
     end
 
     def should_execute?(time = nil)
