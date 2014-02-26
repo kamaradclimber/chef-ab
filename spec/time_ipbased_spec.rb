@@ -1,6 +1,4 @@
-require 'rspec'
-
-require_relative '../lib/chef-ab.rb'
+require_relative 'spec_helper.rb'
 
 module ChefAB
   class TimeIPBasedUpgrader

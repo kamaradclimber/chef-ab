@@ -18,4 +18,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'backports' #this is required for ruby 1.9.3
 
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'coveralls'
 end

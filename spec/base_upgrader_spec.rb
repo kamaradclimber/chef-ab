@@ -1,5 +1,4 @@
-require 'rspec'
-require_relative '../lib/chef-ab.rb'
+require_relative 'spec_helper.rb'
 
 describe ChefAB::BaseUpgrader do
   it 'should have an integer hash' do
