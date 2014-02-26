@@ -3,6 +3,8 @@ Chef AB
 [![Build Status](https://travis-ci.org/criteo/chef-ab.png?branch=master)](https://travis-ci.org/criteo/chef-ab)
 [![Gem Version](https://badge.fury.io/rb/chef-ab.png)](http://badge.fury.io/rb/chef-ab)
 [![Dependency Status](https://gemnasium.com/criteo/chef-ab.png)](https://gemnasium.com/criteo/chef-ab)
+[![Coverage Status](https://coveralls.io/repos/kamaradclimber/chef-ab/badge.png?branch=master)](https://coveralls.io/r/kamaradclimber/chef-ab?branch=master)
+[![Coverage Status](https://coveralls.io/repos/criteo/chef-ab/badge.png)](https://coveralls.io/r/criteo/chef-ab)
 
 chef-ab is a small library to activate code in cookbooks progressively in a cluster.
 
