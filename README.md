@@ -10,6 +10,8 @@ chef-ab is a small library to activate code in cookbooks progressively in a clus
 
 It works like an AB test with increasing population.
 
+*Note*: I use now rundeck at work which is much better suited for this kind of thing. I'll be happy to transfer the ownership of this gem though I still accept bug report and PR.
+
 
 Usage
 ----------
